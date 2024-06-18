@@ -3,6 +3,9 @@ export const feverMedicine=[
         image:"https://c8.alamy.com/comp/C3C42T/calpol-childrens-medicine-fever-child-infant-C3C42T.jpg",
         name:"Calpol",
         description:"Fever and pain relief medication",
+        discountPrice:"Rs 100",
+        price:"Rs 200",
+        discount:"50% off"
     },
     {
         image:"https://i-cf65.ch-static.com/content/dam/cf-consumer-healthcare/panadol-reborn/en_IN/product-detail/380x463/Crocin-120-Suspension--60ml-Bottle.png?auto=format",
