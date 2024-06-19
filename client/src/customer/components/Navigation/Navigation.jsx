@@ -21,6 +21,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import Avatar from '@mui/material/Avatar';
+import { useNavigate } from 'react-router-dom';
 
 const navigation = {
   categories: [
@@ -152,12 +153,13 @@ function classNames(...classes) {
 export default function Navigation() {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState({ loggedIn: true, name: 'Nancy' }); // Dummy user state
+  const navigate=useNavigate();
 
   return (
     <div className="bg-white">
       {/* Mobile menu */}
       <Transition show={open}>
-        <Dialog className="relative z-40 lg:hidden" onClose={setOpen}>
+        <Dialog className="relative z-50 lg:hidden" onClose={setOpen}>
           <TransitionChild
             enter="transition-opacity ease-linear duration-300"
             enterFrom="opacity-0"
