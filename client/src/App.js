@@ -8,6 +8,7 @@ import ProductDetail from './customer/components/ProductDetails/ProductDetails';
 import Cart from './customer/components/Cart/Cart';
 import Checkout from './customer/components/Checkout/Checkout';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Order from './customer/components/Order/Order';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
       {/* <Cart/> */}
       <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Checkout/>}/>
+        <Route path="/" element={<Order/>}/>
       </Routes>
       </BrowserRouter>
       
