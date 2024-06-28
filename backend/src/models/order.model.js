@@ -11,6 +11,10 @@ const orderSchema = new Schema({
       ref: "orderItems",
     },
   ],
+  shippingAddress: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "addresses",
+  },
   orderDate: {
     type: Date,
     required: true,
@@ -19,10 +23,7 @@ const orderSchema = new Schema({
   deliveryDate: {
     type: Date,
   },
-  shippingAddress: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "addresses",
-  },
+
   paymentDetails: {
     paymentMethod: {
       type: String,

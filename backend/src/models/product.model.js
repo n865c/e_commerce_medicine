@@ -31,7 +31,7 @@ const productSchema = new Schema({
   companyName: {
     type: String,
   },
-  sizes: [
+  weight: [
     {
       name: { type: String },
       quantity: { type: Number },
