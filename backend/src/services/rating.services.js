@@ -17,6 +17,7 @@ const createRating = async (req, user) => {
   }
 };
 
+
 const getProductRating = async (productId) => {
   return await Rating.find({ product: productId });
 };

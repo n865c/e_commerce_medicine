@@ -4,7 +4,7 @@ const { getUserIdFromToken } = require("../config/jwtProvider");
 
 const createUser = async (userData) => {
   try {
-    console.log(userData);
+    
     let { firstName, lastName, email, password } = userData;
     const isUserExist = await userModel.findOne({ email });
     if (isUserExist) {

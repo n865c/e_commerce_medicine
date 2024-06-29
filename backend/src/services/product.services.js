@@ -1,4 +1,3 @@
-const { default: products } = require("razorpay/dist/types/products.js");
 const Category = require("../models/category.model.js");
 const Product = require("../models/product.model.js");
 const createProduct = async (reqData) => {

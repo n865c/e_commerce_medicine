@@ -8,8 +8,20 @@ const updateCartItem = async (req, res) => {
       req.params.id,
       req.body
     );
-    return res.status(200).send(updateCartItem);
+    return res.status(201).send(updateCartItem);
   } catch (err) {
     return res.status(500).send({ error: err.message });
   }
 };
+
+const removeCartItem = async (req, res) => {
+  const user = req.user;
+  try {
+    await removeItemService.removeCartItem(user._id, req.params.id);
+    return res.status(201).send({ message: "cart item removed successfully" });
+  } catch (err) {
+    return res.status(500).send({ error: err.message });
+  }
+};
+
+module.exports = { updateCartItem, removeCartItem };
