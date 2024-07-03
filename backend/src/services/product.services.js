@@ -9,7 +9,9 @@ const createProduct = async (reqData) => {
         name: reqData.topLevelCategory,
         level: 1,
       });
+      await topLevel.save();
     }
+
     let secondLevel = await Category.findOne({
       name: reqData.secondLevelCategory,
       parentCategory: topLevel._id,
@@ -20,6 +22,7 @@ const createProduct = async (reqData) => {
         parentCategory: topLevel.id,
         level: 2,
       });
+      await secondLevel.save();
     }
     let thirdLevel = await Category.findOne({
       name: reqData.thirdLevelCategory,
@@ -31,6 +34,7 @@ const createProduct = async (reqData) => {
         parentCategory: secondLevel.id,
         level: 3,
       });
+      await thirdLevel.save();
     }
 
     const product = new Product({
@@ -45,7 +49,9 @@ const createProduct = async (reqData) => {
       imageUrl: reqData.imageUrl,
       category: thirdLevel._id,
     });
-    return await product.save();
+
+    const chk = await product.save();
+    console.log("chk", chk);
   } catch (err) {
     throw new Error(err.message);
   }
@@ -105,7 +111,7 @@ const getAllProducts = async (reqQuery) => {
       }
     }
     if (weights) {
-      const wightSet = new Set(wights);
+      const wightSet = new Set(weights);
       query.query.where("weights.name").in([...wightSet]);
     }
     if (minPrice && maxPrice) {
@@ -125,7 +131,8 @@ const getAllProducts = async (reqQuery) => {
       const sortDirection = sort === "price_high" ? -1 : 1;
       query = query.sort({ discountedPrice: sortDirection });
     }
-    const totalProducts = await Product.countDouments(query);
+    const totalProducts = await Product.countDocuments(query);
+    
     const skip = (pageNumber - 1) * pageSize;
     query = query.skip(skip).limit(pageSize);
     const products = await query.exec();

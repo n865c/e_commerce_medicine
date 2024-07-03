@@ -1,7 +1,7 @@
 const cartService = require("../services/cart.services");
 
 const findUserCart = async (req, res) => {
-  const user = req.user;
+  const user = await req.user;
   try {
     const cart = await cartService.findUserCart(user._id);
     return res.status(201).send(cart);
@@ -11,7 +11,7 @@ const findUserCart = async (req, res) => {
 };
 
 const addItemToCart = async (req, res) => {
-  const user = req.user;
+  const user = await req.user;
   try {
     const cartItem = await cartService.addCartItem(user._id, req.body);
     return res.status(201).send(cartItem);

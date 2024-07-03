@@ -21,8 +21,10 @@ const findUserCart = async (userId) => {
       .find({ cart: cart._id })
       .populate("product")
       .exec();
-
+    //  console.log("check",cart.cartItems,cartItems)
     cart.cartItems = cartItems;
+    //  console.log("check2", cart.cartItems);
+
     let totalPrice = 0;
     let totalDiscountedPrice = 0;
     let totalItem = 0;
@@ -35,6 +37,7 @@ const findUserCart = async (userId) => {
     cart.totalPrice = totalPrice;
     cart.discount = totalPrice - totalDiscountedPrice;
     cart.totalItem = totalItem;
+    cart.totalDiscountedPrice = totalDiscountedPrice;
 
     return cart;
   } catch (err) {
@@ -46,23 +49,26 @@ const addCartItem = async (userId, req) => {
   try {
     const cart = await Cart.findOne({ user: userId });
     const product = await Product.findById(req.productId);
+
     const isPresent = await cartItem.findOne({
       cart: cart._id,
       product: product._id,
       userId,
     });
+
     if (!isPresent) {
-      const cartItem = new cartItem({
+      const cartItems = new cartItem({
         product: product._id,
         cart: cart._id,
         quantity: 1,
         userId,
         price: product.price,
         weight: req.weight,
-        discountedPrice: product.discountedPrice,
+        discountedPrice: product.discountPrice,
       });
-      const createdCartItem = await cartItem.save();
+      const createdCartItem = await cartItems.save();
       cart.cartItems.push(createdCartItem);
+
       await cart.save();
       return "Item added to cart";
     }

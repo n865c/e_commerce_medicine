@@ -1,9 +1,9 @@
-const { create } = require("../models/category.model");
 const productServices = require("../services/product.services.js");
 
 const createProduct = async (req, res) => {
   try {
     const product = await productServices.createProduct(req.body);
+
     return res.status(201).send(product);
   } catch (err) {
     return res.status(500).send({ error: err.message });
@@ -43,6 +43,7 @@ const findProductById = async (req, res) => {
 const getAllProducts = async (req, res) => {
   try {
     const products = await productServices.getAllProducts(req.query);
+    console.log("product", products);
     return res.status(201).send(products);
   } catch (err) {
     return res.status(500).send({ error: err.message });

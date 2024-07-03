@@ -8,8 +8,8 @@ const authenticate = async (req, res, next) => {
     if (!token) {
       res.status(404).send({ error: "token is not found..." });
     }
-    const userId = jwtProvider.getUserIdFromToken(token);
-    const user = userServices.findUserById(userId);
+    const userId = await jwtProvider.getUserIdFromToken(token);
+    const user = await userServices.findUserById(userId);
     req.user = user;
   } catch (err) {
     return res.status(500).send({ error: err.message });
