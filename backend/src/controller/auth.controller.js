@@ -5,11 +5,11 @@ const bcrypt = require("bcrypt");
 
 const register = async (req, res) => {
   try {
-    console.log(req.body);
     const user = await userServices.createUser(req.body);
+    // console.log("userid" + user.id + "user._id" + user._id);
     const jwt = jwtProvider.generateToken(user.id);
     await cartServices.createCart(user);
-    return res.status(200).send({ jwt, message: "register success" });
+    return res.status(201).send({ jwt, message: "register success" });
   } catch (err) {
     return res.status(500).send({ error: err.message });
   }
@@ -30,7 +30,7 @@ const login = async (req, res) => {
     }
     const jwt = jwtProvider.generateToken(user.id);
 
-    return res.status(200).send({ jwt, message: "login success" });
+    return res.status(201).send({ jwt, message: "login success" });
   } catch (err) {
     return res.status(500).send({ error: err.message });
   }

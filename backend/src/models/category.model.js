@@ -9,5 +9,9 @@ const categorySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "categories",
   },
+  level: {
+    type: Number,
+    required: true,
+  },
 });
 module.exports = mongoose.model("categories", categorySchema);
