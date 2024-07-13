@@ -13,6 +13,7 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+
 const getAllUsers = async (req, res) => {
   try {
     const user = await userServices.findAllUser();
@@ -21,5 +22,6 @@ const getAllUsers = async (req, res) => {
     res.status(500).send({ error: err.message });
   }
 };
+
 
 module.exports = { getAllUsers, getUserProfile };
