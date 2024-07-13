@@ -102,6 +102,7 @@ const getAllProducts = async (reqQuery) => {
     } = reqQuery;
     pageSize = pageSize || 10;
     let query = Product.find().populate("category");
+
     if (category) {
       const existCategory = await Category.findOne({ name: category });
       if (existCategory) {
@@ -110,6 +111,7 @@ const getAllProducts = async (reqQuery) => {
         return { content: [], currentPage: 1, totalPage: 0 };
       }
     }
+
     if (weights) {
       const wightSet = new Set(weights);
       query.query.where("weights.name").in([...wightSet]);
@@ -132,7 +134,7 @@ const getAllProducts = async (reqQuery) => {
       query = query.sort({ discountedPrice: sortDirection });
     }
     const totalProducts = await Product.countDocuments(query);
-    
+
     const skip = (pageNumber - 1) * pageSize;
     query = query.skip(skip).limit(pageSize);
     const products = await query.exec();
