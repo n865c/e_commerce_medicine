@@ -11,6 +11,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Order from './customer/components/Order/Order';
 import OrderDetails from './customer/components/Order/OrderDetails';
 import CustomerRouters from './Routers/CustomerRouters';
+import LoginForm from './customer/Auth/LoginForm';
+import RegisterForm from './customer/Auth/RegisterForm';
 
 function App() {
   return (
@@ -19,11 +21,11 @@ function App() {
       {/* <Product/> */}
       {/* <ProductDetail/> */}
       {/* <Cart/> */}
-      <BrowserRouter>
+    
       <Routes>
         <Route path="/*" element={<CustomerRouters/>}/>
+        
       </Routes>
-      </BrowserRouter>
       
     </div>
   );
