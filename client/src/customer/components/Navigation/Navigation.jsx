@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -22,8 +22,11 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Avatar from "@mui/material/Avatar";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthModal from "../../Auth/AuthModal";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, logout } from "../../../State/Auth/Action";
+import { MenuItem } from "@mui/material";
 
 const navigation = {
   categories: [
@@ -160,9 +163,12 @@ function classNames(...classes) {
 }
 
 export default function Navigation() {
+  const {auth}=useSelector(store=>store);
+  const dispatch=useDispatch();
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState({ loggedIn: true, name: "Nancy" }); // Dummy user state
   const navigate = useNavigate();
+  const location=useLocation();
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -181,11 +187,32 @@ export default function Navigation() {
   };
   const handleClose = () => {
     setOpenAuthModal(false);
+    navigate('/')
   };
   const handleCategoryClick = (category, section, item, close) => {
     navigate(`/${category.id}/${section.id}/${item.id}`);
     close();
   };
+  useEffect(()=>{
+    if(jwt){
+    dispatch(getUser(jwt))
+    }
+
+},[jwt,auth.jwt]);
+  useEffect(()=>{
+    if(auth.user)
+    {
+      handleClose();
+    }
+    if(location.pathname==='/login'||location.pathname==="/register")
+      navigate(-1);//back one step
+
+  },[auth.user])
+  const handleLogout=()=>{
+    dispatch(logout())
+    handleCloseUserMenu();
+    localStorage.clear();
+  }
 
   return (
     <div className="bg-white">
@@ -321,14 +348,14 @@ export default function Navigation() {
                       Sign in
                     </a>
                   </div>
-                  <div className="flow-root">
+                  {/* <div className="flow-root">
                     <a
                       href="#"
                       className="-m-2 block p-2 font-medium text-gray-900"
                     >
                       Create account
                     </a>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
@@ -485,12 +512,12 @@ export default function Navigation() {
                                                 key={item.name}
                                                 className="flex"
                                               >
-                                                <a
-                                                  href={item.href}
-                                                  className="hover:text-gray-800"
+                                                <p onClick={()=>handleCategoryClick(category,section,item,close)}
+                                                  
+                                                  className="hover:text-gray-800 cursor-pointer"
                                                 >
                                                   {item.name}
-                                                </a>
+                                                </p>
                                               </li>
                                             ))}
                                           </ul>
@@ -522,12 +549,18 @@ export default function Navigation() {
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   {/* user.loggedIn */}
-                  {false ? (
+                  {auth.user.firstName ? (
                     <div className="flex items-center space-x-4">
-                      <Avatar className="cursor-pointer">{user.name[0]}</Avatar>
-                      {/* <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                        {user.name}
-                      </a> */}
+                      <Avatar className="cursor-pointer">{auth.user?.firstName[0].toUpperCase()}</Avatar>
+                    <MenuItem onClick={handleCloseUserMenu}>
+                    Profile
+                    </MenuItem>
+                    <MenuItem onClick={()=>navigate("/account/order")}>
+                    My Orders
+                    </MenuItem>
+                    <MenuItem onClick={()=>handleLogout()}>
+                    Logout
+                    </MenuItem>
                     </div>
                   ) : (
                     <>
@@ -542,12 +575,12 @@ export default function Navigation() {
                         className="h-6 w-px bg-gray-200"
                         aria-hidden="true"
                       />
-                      <a
+                      {/* <a
                         href="#"
                         className="text-sm font-medium text-gray-700 hover:text-gray-800"
                       >
                         Create account
-                      </a>
+                      </a> */}
                     </>
                   )}
                 </div>
