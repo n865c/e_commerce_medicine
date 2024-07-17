@@ -512,7 +512,7 @@ export default function Navigation() {
                                                 key={item.name}
                                                 className="flex"
                                               >
-                                                <p onClick={()=>handleCategoryClick(category,section,item,close)}
+                                                <p onClick={()=>handleCategoryClick(category,section,item)}
                                                   
                                                   className="hover:text-gray-800 cursor-pointer"
                                                 >
@@ -549,7 +549,7 @@ export default function Navigation() {
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   {/* user.loggedIn */}
-                  {auth.user.firstName ? (
+                  {auth.user?.firstName ? (
                     <div className="flex items-center space-x-4">
                       <Avatar className="cursor-pointer">{auth.user?.firstName[0].toUpperCase()}</Avatar>
                     <MenuItem onClick={handleCloseUserMenu}>

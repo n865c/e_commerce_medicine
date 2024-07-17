@@ -1,5 +1,6 @@
 import ProductCard from "./ProductCard"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import{useDispatch} from "react-redux"
 import {
   Dialog,
   DialogPanel,
@@ -16,6 +17,8 @@ import {
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import { feverMedicine } from '../../../Data/feverMedicine'
+import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { findProducts } from "../../../State/Product/Action"
 
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
@@ -75,6 +78,45 @@ function classNames(...classes) {
 
 export default function Product() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const location=useLocation();
+  const navigate=useNavigate();
+const param=useParams();
+const dispatch=useDispatch();
+
+  const decodeQueryString=decodeURIComponent(location.search);
+  const searchParams=new URLSearchParams(decodeQueryString);
+  const priceValue=searchParams.get("price")
+  const discount=searchParams.get("discount")
+  const sortValue =searchParams.get("sort")
+  const pageNumber=searchParams.get("page")||1
+const stock=searchParams.get("stock");
+
+  const handleFilter=(value,sectionId)=>{
+
+  }
+  const handleRadioFilterChange=(e,sectionId)=>{
+
+  }
+
+  useEffect(()=>{
+    const [minPrice,maxPrice]=priceValue===null?[0,10000]:priceValue.split("-").map(Number);
+    const data={
+      category:param.lavelThree,
+      minPrice,maxPrice,
+      minDiscount:discount||0,
+      sort:sortValue||"price_low",
+      pageNumber:pageNumber-1,
+      pageSize:10,
+      stock
+    }
+    dispatch(findProducts(data))
+
+  },[param.lavelThree,
+    priceValue,
+    discount,
+    sortValue,
+    pageNumber,stock
+  ])
 
   return (
     <div className="bg-white">
